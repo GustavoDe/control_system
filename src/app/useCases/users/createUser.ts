@@ -1,6 +1,7 @@
 import { Request, response, Response } from "express";
 import prisma from "../../..";
 import { Cryptography } from "../../utils/cryptography";
+import { createResponse } from "../../utils/response";
 
 async function checkYourUserAlreadyExists(username: string) {
 	const userExist: any | null = await prisma.user.findUnique({
@@ -38,7 +39,7 @@ export async function VerifyDataUser(request: Request, response: Response) {
 							hashedPassword = Cryptography(password);
 							bodyUser.password = hashedPassword;
 							CreateUser(bodyUser).then(data => {
-								response.status(201).json(data);
+								response.status(201).json(createResponse(true, data, "Usuário criado com sucesso"));
 							});
 						} else {
 							throw new Error("Cadastre uma senha para seu usuário");
@@ -55,9 +56,9 @@ export async function VerifyDataUser(request: Request, response: Response) {
 
 
 
-	} catch (error) {
+	} catch (error:any) {
 		console.log(error);
-		response.status(500).json(error);
+		response.status(500).json(createResponse(false, {error} , error.message ));
 	}
 
 }
@@ -70,6 +71,12 @@ async function CreateUser(user: any) {
 			name,
 			type,
 			password
+		},
+		select: {
+			id:true,
+			name: true,
+			username: true,
+			type:true
 		}
 	});
 
