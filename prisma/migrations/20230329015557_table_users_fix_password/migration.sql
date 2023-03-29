@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `user` MODIFY `type` VARCHAR(191) NOT NULL DEFAULT '1',
+    ALTER COLUMN `username` DROP DEFAULT;
