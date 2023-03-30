@@ -5,7 +5,6 @@ import { createResponse } from "../../utils/response";
 export async function DeleteUser(request: Request, response: Response) {
 	try {
 		const id = Number(request.params.id);
-		console.log(id);
 		const existingUser = await prisma.user.findUnique({
 			where: { id: id }
 		});
