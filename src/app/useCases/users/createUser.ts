@@ -28,7 +28,6 @@ export async function VerifyDataUser(request: Request, response: Response) {
 	let hashedPassword = "";
 	try {
 		if (username != null) {
-			console.log(username);
 			await checkYourUserAlreadyExists(username).then(data => {
 				bodyUser.username = data;
 				if (name != null) {
@@ -57,7 +56,6 @@ export async function VerifyDataUser(request: Request, response: Response) {
 
 
 	} catch (error:any) {
-		console.log(error);
 		response.status(500).json(createResponse(false, {error} , error.message ));
 	}
 
@@ -79,8 +77,6 @@ async function CreateUser(user: any) {
 			type:true
 		}
 	});
-
-	console.log(UserCreate);
 
 	return UserCreate;
 
